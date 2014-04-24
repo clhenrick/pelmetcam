@@ -1,10 +1,12 @@
 #Picamera script
 #from GPSController import *
+import RPi.GPIO as GPIO
 import picamera
 import time
 import datetime
 import threading
 import os
+import sys
 import argparse
 
 # constants
@@ -29,6 +31,10 @@ if __name__ == "__main__":
 
         #start gps controller
         #gpscontrol = GpsController()
+
+        #get time
+        currenttime = datetime.datetime.now()
+        foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(current.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
 
         #create data folder
         if not os.path.exists(foldername): os.makedirs(foldername)

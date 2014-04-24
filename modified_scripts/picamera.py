@@ -73,6 +73,7 @@ if __name__ == "__main__":
 
         except KeyboardInterrupt:
             print "user cancelled cntrl c"
+            
 	    except:
 	        print "Unexpected error - ", sys.exc_info()[0], sys.exc_info()[1]
 	        raise
@@ -80,4 +81,4 @@ if __name__ == "__main__":
 	    finally:
 	        print "stopping picamera"
 
-	                          
+

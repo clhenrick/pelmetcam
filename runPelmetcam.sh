@@ -1,8 +1,8 @@
 #script to run the pelmetcam program and shutdown when finished
 echo "Start GPS Service"
 /home/pi/dev/pelmetcam/startGPSService.sh
-echo "Start Temp Sensor Mod Probes"
-/home/pi/dev/pelmetcam/startTempMods.sh
+#echo "Start Temp Sensor Mod Probes"
+#/home/pi/dev/pelmetcam/startTempMods.sh
 echo "Start Pelmetcam"
 sudo python /home/pi/dev/pelmetcam/pelmetcam.py /home/pi/pelmetvids
 #sudo python /home/pi/dev/pelmetcam/pelmetcam.py /home/pi/pelmetvids -d

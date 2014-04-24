@@ -71,14 +71,29 @@ if __name__ == "__main__":
             #debug, print data to screen
             #print(dataString)
 
-        except KeyboardInterrupt:
-            print "user cancelled cntrl c"
-            
-	    except:
-	        print "Unexpected error - ", sys.exc_info()[0], sys.exc_info()[1]
-	        raise
+        #stop the camera
+        camera.stop_recording()
+        camera.close()
 
-	    finally:
-	        print "stopping picamera"
+        #recording finished
+        print "recording stopped"
+
+        #close file
+        datafile.close()
+
+        #wait for a bit
+        time.sleep(0.1)
+        #debug, print dots to see code is running
+        print "."
+    
+    except KeyboardInterrupt:
+        print "user cancelled cntrl c"
+        
+    except:
+        print "Unexpected error - ", sys.exc_info()[0], sys.exc_info()[1]
+        raise
+
+    finally:
+        print "stopping picamera"
 
 

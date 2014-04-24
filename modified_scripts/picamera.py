@@ -1,5 +1,5 @@
 #Picamera script
-from GPSController import *
+#from GPSController import *
 import picamera
 import time
 import datetime

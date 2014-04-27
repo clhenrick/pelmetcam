@@ -89,19 +89,19 @@ if __name__ == "__main__":
                 #debug, print data to screen
                 #print(dataString)
                 if args.dataoverlay:
-                dataitems = dataString.split(",")
-                #create frame
-                # newDataFrame(self, frameNo, mode, date, lat, lon, altitude speed, track, climb, tempC)
-                datadrawer.newDataFrame(int(dataitems[0]),
-                                        int(dataitems[1]),
-                                        dataitems[2],
-                                        float(dataitems[4]),                    
-                                        float(dataitems[5]),
-                                        float(dataitems[6]),
-                                        float(dataitems[7]),
-                                        float(dataitems[8]),
-                                        float(dataitems[9]),
-                                        float(dataitems[10]))
+                    dataitems = dataString.split(",")
+                    #create frame
+                    # newDataFrame(self, frameNo, mode, date, lat, lon, altitude speed, track, climb, tempC)
+                    datadrawer.newDataFrame(int(dataitems[0]),
+                                            int(dataitems[1]),
+                                            dataitems[2],
+                                            float(dataitems[4]),                    
+                                            float(dataitems[5]),
+                                            float(dataitems[6]),
+                                            float(dataitems[7]),
+                                            float(dataitems[8]),
+                                            float(dataitems[9]),
+                                            float(dataitems[10]))
 
         #stop the camera
         camera.stop_recording()

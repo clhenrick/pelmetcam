@@ -57,13 +57,13 @@ if __name__ == "__main__":
             print "recording"
 
             #infinite while loop, temporarily replace button functionality
-            while true: 
+            while True: 
                 #get frame number
                 framenumber = camera.frame
                 #wait for a bit, GPS data is little behind, give processer a rest`
                 time.sleep(0.1)
                 #record data
-                dataString = str(framenumber) + "\n" 
+                #dataString = str(framenumber) + "\n" 
                 # dataString += str(gpscontrol.fix.mode) + "," 
                 # dataString += str(gpscontrol.fixdatetime) + "," 
                 # dataString += str(gpscontrol.fix.time) + "," 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 # dataString += str(gpscontrol.fix.climb) + ","
                 # dataString += str(tempcontrol.temperature.C) + ","
                 # dataString += str(tempcontrol.temperature.F) + "\n"
-                datafile.write(dataString)
+                #datafile.write(dataString)
                 #debug, print data to screen
                 #print(dataString)
 

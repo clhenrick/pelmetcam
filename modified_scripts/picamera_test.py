@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
         #get time
         currenttime = datetime.datetime.now()
-        foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(current.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
+        foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(currenttime.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
 
         #create data folder
         if not os.path.exists(foldername): os.makedirs(foldername)
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         datafile = open(foldername + "/data.csv", "w")
 
         #start recording
-        with picamera.PiCamera(False) as camera:
+        with picamera.PiCamera() as camera:
             #setup camera
             camera.resolution = (VIDEOWIDTH, VIDEOHEIGHT)
             camera.framerate = VIDEOFPS

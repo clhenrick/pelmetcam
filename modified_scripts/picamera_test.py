@@ -56,26 +56,28 @@ if __name__ == "__main__":
             camera.start_recording(foldername+"/vid.h264", inline_headers=False)
             print "recording"
 
-            #get frame number
-            framenumber = camera.frame
-            #wait for a bit, GPS data is little behind, give processer a rest`
-            time.sleep(0.1)
-            #record data
-            dataString = str(framenumber) + "," 
-            # dataString += str(gpscontrol.fix.mode) + "," 
-            # dataString += str(gpscontrol.fixdatetime) + "," 
-            # dataString += str(gpscontrol.fix.time) + "," 
-            # dataString += str(gpscontrol.fix.latitude) + "," 
-            # dataString += str(gpscontrol.fix.longitude) + ","
-            # dataString += str(gpscontrol.fix.altitude) + ","
-            # dataString += str(gpscontrol.fix.speed) + ","
-            # dataString += str(gpscontrol.fix.track) + ","
-            # dataString += str(gpscontrol.fix.climb) + ","
-            # dataString += str(tempcontrol.temperature.C) + ","
-            # dataString += str(tempcontrol.temperature.F) + "\n"
-            datafile.write(dataString)
-            #debug, print data to screen
-            print(dataString)
+            #infinite while loop, temporarily replace button functionality
+            while true: 
+                #get frame number
+                framenumber = camera.frame
+                #wait for a bit, GPS data is little behind, give processer a rest`
+                time.sleep(0.1)
+                #record data
+                dataString = str(framenumber) + "," 
+                # dataString += str(gpscontrol.fix.mode) + "," 
+                # dataString += str(gpscontrol.fixdatetime) + "," 
+                # dataString += str(gpscontrol.fix.time) + "," 
+                # dataString += str(gpscontrol.fix.latitude) + "," 
+                # dataString += str(gpscontrol.fix.longitude) + ","
+                # dataString += str(gpscontrol.fix.altitude) + ","
+                # dataString += str(gpscontrol.fix.speed) + ","
+                # dataString += str(gpscontrol.fix.track) + ","
+                # dataString += str(gpscontrol.fix.climb) + ","
+                # dataString += str(tempcontrol.temperature.C) + ","
+                # dataString += str(tempcontrol.temperature.F) + "\n"
+                #datafile.write(dataString)
+                #debug, print data to screen
+                print(dataString)
 
         #stop the camera
         camera.stop_recording()

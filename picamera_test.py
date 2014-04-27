@@ -37,71 +37,71 @@ if __name__ == "__main__":
         print "GPS started controller"
 
         #infinite while loop, temporarily replace button functionality
-        while True: 
+        #while True: 
 
-            #get time from GPS else use system time
-            currenttime = gpscontrol.fixdatetime
-            if (currenttime == None):
-                currenttime = datetime.datetime.now()
-            
-            #create data folder
-            foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(currenttime.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
-            if not os.path.exists(foldername): os.makedirs(foldername)
-            print "data folder created: " + foldername
+        #get time from GPS else use system time
+        currenttime = gpscontrol.fixdatetime
+        if (currenttime == None):
+            currenttime = datetime.datetime.now()
+        
+        #create data folder
+        foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(currenttime.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
+        if not os.path.exists(foldername): os.makedirs(foldername)
+        print "data folder created: " + foldername
 
-            #create data file
-            datafile = open(foldername + "/data.csv", "w")
+        #create data file
+        datafile = open(foldername + "/data.csv", "w")
 
-            #create data overlay drawer class
-            if args.dataoverlay: datadrawer = DataDrawer(foldername)
+        #create data overlay drawer class
+        if args.dataoverlay: datadrawer = DataDrawer(foldername)
+
+        #start recording
+        with picamera.PiCamera() as camera:
+            #setup camera
+            camera.resolution = (VIDEOWIDTH, VIDEOHEIGHT)
+            camera.framerate = VIDEOFPS
+            camera.vflip = True
+            camera.hflip = True
+            camera.video_stabilization = True
 
             #start recording
-            with picamera.PiCamera() as camera:
-                #setup camera
-                camera.resolution = (VIDEOWIDTH, VIDEOHEIGHT)
-                camera.framerate = VIDEOFPS
-                camera.vflip = True
-                camera.hflip = True
-                camera.video_stabilization = True
-
-                #start recording
-                camera.start_recording(foldername+"/vid.h264", inline_headers=False)
-                print "recording"
-                
-                #get frame number
-                framenumber = camera.frame
-                #wait for a bit, GPS data is little behind, give processer a rest
-                time.sleep(0.1)
-                #record data
-                dataString = str(framenumber) + "\n" 
-                dataString += str(gpscontrol.fix.mode) + "," 
-                dataString += str(gpscontrol.fixdatetime) + "," 
-                dataString += str(gpscontrol.fix.time) + "," 
-                dataString += str(gpscontrol.fix.latitude) + "," 
-                dataString += str(gpscontrol.fix.longitude) + ","
-                dataString += str(gpscontrol.fix.altitude) + ","
-                dataString += str(gpscontrol.fix.speed) + ","
-                dataString += str(gpscontrol.fix.track) + ","
-                dataString += str(gpscontrol.fix.climb) + ","
-                # dataString += str(tempcontrol.temperature.C) + ","
-                # dataString += str(tempcontrol.temperature.F) + "\n"
-                datafile.write(dataString)
-                #debug, print data to screen
-                #print(dataString)
-                if args.dataoverlay:
-                    dataitems = dataString.split(",")
-                    #create frame
-                    # newDataFrame(self, frameNo, mode, date, lat, lon, altitude speed, track, climb, tempC)
-                    datadrawer.newDataFrame(int(dataitems[0]),
-                                            int(dataitems[1]),
-                                            dataitems[2],
-                                            float(dataitems[4]),                    
-                                            float(dataitems[5]),
-                                            float(dataitems[6]),
-                                            float(dataitems[7]),
-                                            float(dataitems[8]),
-                                            float(dataitems[9]),
-                                            float(dataitems[10]))
+            camera.start_recording(foldername+"/vid.h264", inline_headers=False)
+            print "recording"
+            
+            #get frame number
+            framenumber = camera.frame
+            #wait for a bit, GPS data is little behind, give processer a rest
+            time.sleep(0.1)
+            #record data
+            dataString = str(framenumber) + "\n" 
+            dataString += str(gpscontrol.fix.mode) + "," 
+            dataString += str(gpscontrol.fixdatetime) + "," 
+            dataString += str(gpscontrol.fix.time) + "," 
+            dataString += str(gpscontrol.fix.latitude) + "," 
+            dataString += str(gpscontrol.fix.longitude) + ","
+            dataString += str(gpscontrol.fix.altitude) + ","
+            dataString += str(gpscontrol.fix.speed) + ","
+            dataString += str(gpscontrol.fix.track) + ","
+            dataString += str(gpscontrol.fix.climb) + ","
+            # dataString += str(tempcontrol.temperature.C) + ","
+            # dataString += str(tempcontrol.temperature.F) + "\n"
+            datafile.write(dataString)
+            #debug, print data to screen
+            #print(dataString)
+            if args.dataoverlay:
+                dataitems = dataString.split(",")
+                #create frame
+                # newDataFrame(self, frameNo, mode, date, lat, lon, altitude speed, track, climb, tempC)
+                datadrawer.newDataFrame(int(dataitems[0]),
+                                        int(dataitems[1]),
+                                        dataitems[2],
+                                        float(dataitems[4]),                    
+                                        float(dataitems[5]),
+                                        float(dataitems[6]),
+                                        float(dataitems[7]),
+                                        float(dataitems[8]),
+                                        float(dataitems[9]),
+                                        float(dataitems[10]))
 
         #stop the camera
         camera.stop_recording()

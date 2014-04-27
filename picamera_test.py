@@ -1,5 +1,6 @@
 #Picamera script
-#from GPSController import *
+from createDataOverlay import *
+from GPSController import *
 import RPi.GPIO as GPIO
 import picamera
 import time
@@ -28,42 +29,51 @@ if __name__ == "__main__":
 
         print "starting picamera"
         print "data path: " + args.path
+        print "data overlay: " + str(args.dataoverlay)
 
         #start gps controller
-        #gpscontrol = GpsController()
+        gpscontrol = GpsController()
+        gpscontrol.start()
+        print "GPS started controller"
 
-        #get time
-        currenttime = datetime.datetime.now()
-        foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(currenttime.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
+        #infinite while loop, temporarily replace button functionality
+        while True: 
 
-        #create data folder
-        if not os.path.exists(foldername): os.makedirs(foldername)
-        print "data folder created: " + foldername
+            #get time from GPS else use system time
+            currenttime = gpscontrol.fixdatetime
+            if (currenttime == None):
+                currenttime = datetime.datetime.now()
+            
+            #create data folder
+            foldername = args.path + "/" + "{0:02d}".format(currenttime.year) + "{0:02d}".format(currenttime.month) + "{0:02d}".format(currenttime.day) + "{0:02d}".format(currenttime.hour) + "{0:02d}".format(currenttime.minute) + "{0:02d}".format(currenttime.second)
+            if not os.path.exists(foldername): os.makedirs(foldername)
+            print "data folder created: " + foldername
 
-        #create data file
-        datafile = open(foldername + "/data.csv", "w")
+            #create data file
+            datafile = open(foldername + "/data.csv", "w")
 
-        #start recording
-        with picamera.PiCamera() as camera:
-            #setup camera
-            camera.resolution = (VIDEOWIDTH, VIDEOHEIGHT)
-            camera.framerate = VIDEOFPS
-            camera.vflip = True
-            camera.hflip = True
-            camera.video_stabilization = True
+            #create data overlay drawer class
+            if args.dataoverlay: datadrawer = DataDrawer(foldername)
 
             #start recording
-            camera.start_recording(foldername+"/vid.h264", inline_headers=False)
-            print "recording"
+            with picamera.PiCamera() as camera:
+                #setup camera
+                camera.resolution = (VIDEOWIDTH, VIDEOHEIGHT)
+                camera.framerate = VIDEOFPS
+                camera.vflip = True
+                camera.hflip = True
+                camera.video_stabilization = True
 
-            #infinite while loop, temporarily replace button functionality
-            while True: 
+                #start recording
+                camera.start_recording(foldername+"/vid.h264", inline_headers=False)
+                print "recording"
+                
                 #get frame number
                 framenumber = camera.frame
-                #wait for a bit, GPS data is little behind, give processer a rest`
+                #wait for a bit, GPS data is little behind, give processer a rest
                 time.sleep(0.1)
                 #record data
-                #dataString = str(framenumber) + "\n" 
+                dataString += str(framenumber) + "\n" 
                 # dataString += str(gpscontrol.fix.mode) + "," 
                 # dataString += str(gpscontrol.fixdatetime) + "," 
                 # dataString += str(gpscontrol.fix.time) + "," 
@@ -77,7 +87,7 @@ if __name__ == "__main__":
                 # dataString += str(tempcontrol.temperature.F) + "\n"
                 #datafile.write(dataString)
                 #debug, print data to screen
-                #print(dataString)
+                print(dataString)
 
         #stop the camera
         camera.stop_recording()

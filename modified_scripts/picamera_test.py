@@ -63,7 +63,7 @@ if __name__ == "__main__":
                 #wait for a bit, GPS data is little behind, give processer a rest`
                 time.sleep(0.1)
                 #record data
-                dataString = str(framenumber) + "," 
+                dataString = str(framenumber) + "\n" 
                 # dataString += str(gpscontrol.fix.mode) + "," 
                 # dataString += str(gpscontrol.fixdatetime) + "," 
                 # dataString += str(gpscontrol.fix.time) + "," 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 # dataString += str(gpscontrol.fix.climb) + ","
                 # dataString += str(tempcontrol.temperature.C) + ","
                 # dataString += str(tempcontrol.temperature.F) + "\n"
-                #datafile.write(dataString)
+                datafile.write(dataString)
                 #debug, print data to screen
                 print(dataString)
 

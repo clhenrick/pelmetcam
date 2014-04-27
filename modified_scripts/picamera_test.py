@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 # dataString += str(tempcontrol.temperature.F) + "\n"
                 datafile.write(dataString)
                 #debug, print data to screen
-                print(dataString)
+                #print(dataString)
 
         #stop the camera
         camera.stop_recording()
